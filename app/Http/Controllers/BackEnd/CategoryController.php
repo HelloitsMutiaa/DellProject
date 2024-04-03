@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\BackEnd;
+namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category as ModelsCategory;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
 class CategoryController extends Controller
 {
@@ -13,15 +15,19 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->has('search')){
-            $categories = ModelsCategory::where('nama', 'LIKE', '%'.$request->search.'%')
-            ->orderBy('nama', 'ASC')
-            ->paginate(5); 
-        }else{
-        $categories = ModelsCategory::orderBy('nama', 'ASC')
-        ->paginate(5);
+        if ($request->ajax()) {
+            $categories = Category::query();
+            return DataTables::of($categories)
+                ->addColumn('action', function ($category) {
+                    return view('backend.categories.action', [
+                        'category' => $category,
+                    ]);
+                })
+                ->addIndexColumn()
+                ->rawColumns(['action'])
+                ->make(true);
         }
-        return view('BackEnd.Categories.index', ['categories' => $categories]);
+        return view('backend.categories.index');
     }
 
     /**
@@ -29,7 +35,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.categories.create');
     }
 
     /**
@@ -37,42 +43,55 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $categories = ModelsCategory::create([
-            'nama' => $request->kategori,
+        $request->validate([
+            'category_name' => 'required',
         ]);
-        return redirect()->route('categories');
+        Category::create([
+            'category_name' => $request->category_name,
+            'category_slug' => Str::slug($request->category_name, '-'),
+        ]);
+        return redirect()->route('backend.categories.index')->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $category)
     {
-        
     }
 
-    public function edit($id)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($category)
     {
-        $categories = ModelsCategory::findOrFail($id);
+        $category = Category::find(decodeId($category));
+        return view('backend.categories.edit', compact('category'));
+    }
 
-        return view('Backend.categories.update', [
-            'categories' => $categories ,
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $category)
+    {
+        $request->validate([
+            'category_name' => 'required',
         ]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $categories = ModelsCategory::findorFail($id);
-        $categories->update([
-            'nama' => $request->category,
+        $category = Category::find(decodeId($category));
+        $category->update([
+            'category_name' => $request->category_name,
+            'category_slug' => Str::slug($request->category_name, '-'),
         ]);
-        return redirect()->route('categories');
+        return redirect()->route('backend.categories.index')->with('success', 'Data berhasil diubah');
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($category)
     {
-        $categories = ModelsCategory::find($id);
-        $categories->delete();
-        return redirect()->route('categories');
+        $category = Category::find(decodeId($category));
+        $category->delete();
+        return response()->json(['status' => 'success', 'message' => 'Data berhasil dihapus']);
     }
 }
