@@ -1,4 +1,4 @@
-<form action="{{ route('categoriesAdd') }}" method="post">
+<form action="{{ route('categories.create') }}" method="post">
     @csrf
       <div class="form-group">
         <label for="kategori">Nama Kategori :</label>
