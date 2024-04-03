@@ -22,10 +22,11 @@ Route::get('/', function () {
 //Admin
 
 //Categories
-Route::get('/categories', [App\Http\Controllers\admin\CategoryController::class, 'index'])->name('categories');
-Route::post('/categories/create', [App\Http\Controllers\admin\CategoryController::class, 'store'])->name('categories.create');
-Route::get('/categories/edit/{id}', [App\Http\Controllers\admin\CategoryController::class, 'edit'])->name('categories.edit');
-Route::post('/categories/update/{id}', [App\Http\Controllers\admin\CategoryController::class, 'update'])->name('categories.update');
+Route::get('/categories', [App\Http\Controllers\BackEnd\CategoryController::class, 'index'])->name('categories');
+Route::post('/categories/create', [App\Http\Controllers\BackEnd\CategoryController::class, 'store'])->name('categories.create');
+Route::get('/categories/edit/{id}', [App\Http\Controllers\BackEnd\CategoryController::class, 'edit'])->name('categories.edit');
+Route::post('/categories/update/{id}', [App\Http\Controllers\BackEnd\CategoryController::class, 'update'])->name('categories.update');
+Route::delete('/categories/destroy/{id}', [App\Http\Controllers\BackEnd\CategoryController::class, 'destroy'])->name('categories.destroy');
 
 //Books
 Route::get('/books', [App\Http\Controllers\admin\BukuController::class, 'index'])->name('books');

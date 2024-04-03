@@ -22,7 +22,7 @@
         </button>
       </div>
       <div class="modal-body">
-        @include ('FrontEnd.modal.kategoriCreate')
+        @include ('BackEnd.categories.create')
       </div>
     </div>
   </div>
@@ -64,30 +64,19 @@
               <td>123</td>
               <td>
                 <span class="icon-frame">
-                  <button  type="button" data-target="#editKategori" class="btn" data-toggle="modal">
-                    <a href="{{ route('categories.edit', $category->id) }}">
-                      <i class="fas fa-pencil-alt" style="color:green;"></i>
-                    </a>
-                  </button>
-                </span>
-                <div class="modal fade" id="editKategori" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Kategori</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                      <div class="modal-body">
-                        @include ('FrontEnd.modal.kategoriEdit')
-                      </div>
-                    </div>
-                  </div>
-                </div>                 
+                  <a href="{{ route('categories.edit', $category->id) }}">
+                    <i class="fas fa-pencil-alt" style="color:green;"></i>
+                  </a>
+                </span>              
                 <span class="icon-frame">
-                  <i class="fas fa-trash-alt" style="color:red;" title="Hapus"></i>
-                </span>
+                  <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
+                      @csrf
+                      @method('DELETE')  
+                      <button type="submit" style="border: none; background: none;" onclick="return confirm('Yakin Menghapus Kategori ?');">
+                          <i class="fas fa-trash-alt" style="color:red;"></i>
+                      </button>
+                  </form>
+                </span>            
               </td>
             </tr>
             @endforeach
