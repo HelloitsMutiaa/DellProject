@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $categories = ModelsCategory::orderBy('nama', 'ASC')
         ->paginate(5);
         }
-        return view('Admin.kategori', ['categories' => $categories]);
+        return view('BackEnd.kategori', ['categories' => $categories]);
     }
 
     /**
@@ -37,7 +37,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = ModelsCategory::create([
+        $categories = ModelsCategory::create([
             'nama' => $request->kategori,
         ]);
         return redirect()->route('categories');
@@ -48,7 +48,7 @@ class CategoryController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $category = ModelsCategory::find($id)
+        $categories = ModelsCategory::find($id)
         ->update([
             'nama' => $request->kategori,
         ]);
@@ -58,21 +58,24 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        $category = ModelsCategory::findOrFail($id);
+        $categories = ModelsCategory::findOrFail($id);
 
-        return view('Admin.modal.kategoriEdit', [
-            'category' => $category ,
+        return view('FrontEnd.modal.kategoriEdit', [
+            'categories' => $categories ,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $categories = ModelsCategory::find($id)->update([
+            'nama' => $request->kategori,
+        ]);
+        return redirect()->route('categories');
     }
 
     /**

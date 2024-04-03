@@ -1,4 +1,4 @@
-<form action="{{ route('categoriesUpdate', $category->id)}}" method="post">
+<form action="{{ route('categories.update', $category->id)}}" method="post">
     @csrf
       <div class="form-group">
         <label for="kategori">Nama Kategori :</label>

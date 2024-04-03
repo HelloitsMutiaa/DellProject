@@ -23,9 +23,9 @@ Route::get('/', function () {
 
 //Categories
 Route::get('/categories', [App\Http\Controllers\admin\CategoryController::class, 'index'])->name('categories');
-Route::post('/categoriesAdd', [App\Http\Controllers\admin\CategoryController::class, 'store'])->name('categoriesAdd');
-Route::get('/categoriesEdit/{id}', [App\Http\Controllers\admin\CategoryController::class, 'edit'])->name('categoriesEdit');
-Route::post('/categoriesUpdate/{id}', [App\Http\Controllers\admin\CategoryController::class, 'update'])->name('categoriesUpdate');
+Route::post('/categories/create', [App\Http\Controllers\admin\CategoryController::class, 'store'])->name('categories.create');
+Route::get('/categories/edit/{id}', [App\Http\Controllers\admin\CategoryController::class, 'edit'])->name('categories.edit');
+Route::post('/categories/update/{id}', [App\Http\Controllers\admin\CategoryController::class, 'update'])->name('categories.update');
 
 //Books
 Route::get('/books', [App\Http\Controllers\admin\BukuController::class, 'index'])->name('books');

@@ -29,7 +29,7 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-  @include ('admin.sidebar')
+  @include ('layouts.sidebar')
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
