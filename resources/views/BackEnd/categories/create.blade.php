@@ -21,13 +21,12 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name"
-                                    class="col-sm-2 col-form-label @error('category_name') text-danger @enderror">
+                                <label for="name" class="col-sm-2 col-form-label @error('name') text-danger @enderror">
                                     Nama Kategori
                                 </label>
-                                <input type="text" class="form-control @error('category_name') is-invalid @enderror"
-                                    id="name" name="category_name" value="{{ old('category_name') }}">
-                                @error('category_name')
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    id="name" name="name" value="{{ old('name') }}">
+                                @error('name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
