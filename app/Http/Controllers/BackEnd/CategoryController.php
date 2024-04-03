@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category as ModelsCategory;
@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $categories = ModelsCategory::orderBy('nama', 'ASC')
         ->paginate(5);
         }
-        return view('BackEnd.kategori', ['categories' => $categories]);
+        return view('BackEnd.Categories.index', ['categories' => $categories]);
     }
 
     /**
@@ -48,41 +48,31 @@ class CategoryController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $categories = ModelsCategory::find($id)
-        ->update([
-            'nama' => $request->kategori,
-        ]);
-        return redirect()->route('categories');
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $categories = ModelsCategory::findOrFail($id);
 
-        return view('FrontEnd.modal.kategoriEdit', [
+        return view('Backend.categories.update', [
             'categories' => $categories ,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
-        $categories = ModelsCategory::find($id)->update([
-            'nama' => $request->kategori,
+        $categories = ModelsCategory::findorFail($id);
+        $categories->update([
+            'nama' => $request->category,
         ]);
         return redirect()->route('categories');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $categories = ModelsCategory::find($id);
+        $categories->delete();
+        return redirect()->route('categories');
     }
 }
